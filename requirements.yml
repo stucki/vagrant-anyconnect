@@ -1,0 +1,9 @@
+# Requirements file for ansible-galaxy
+
+- src: https://github.com/knopki/ansible-sudoers
+  version: v1.2.0
+  name: knopki.sudoers
+
+- src: https://github.com/mivok/ansible-users
+  version: db443a2a93215de60a06d16461a5bc019b8632e7
+  name: mivok0.users
