@@ -1,0 +1,2 @@
+---
+- include_tasks: reset-password.yml
