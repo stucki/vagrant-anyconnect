@@ -1,0 +1,3 @@
+---
+- name: etckeeper commit
+  command: etckeeper commit "Commit by Ansible"

@@ -1,0 +1,25 @@
+---
+- name: Install etckeeper
+  apt: name={{item}} state=present
+  with_items:
+    - etckeeper
+    - git
+  register: installed
+
+- name: Enable Git usage in etckeeper config (part 1)
+  lineinfile: >
+    dest=/etc/etckeeper/etckeeper.conf
+    insertafter="^#VCS="
+    line='VCS="git"'
+
+- name: Enable Git usage in etckeeper config (part 2)
+  shell: cat /etc/etckeeper/etckeeper.conf | grep "^VCS=" | grep -v "git" || true
+  register: etckeeper_default_vcs
+  changed_when: false
+
+- name: Enable Git usage in etckeeper config (part 3)
+  command: sed -i '/^VCS="git"/! s/^VCS=/#VCS=/g' /etc/etckeeper/etckeeper.conf
+  when: installed|changed or etckeeper_default_vcs.stdout.find('VCS') != -1
+
+- name: Initialize etckeeper
+  shell: etckeeper init && etckeeper commit "Initial commit by Ansible" creates=/etc/.git/config

@@ -1,0 +1,5 @@
+---
+- name: "etckeeper commit: {{commit_msg}}"
+  shell: etckeeper commit "{{commit_msg}}" || echo "nothing to commit"
+  register: command_result
+  changed_when: command_result.stdout.find('nothing to commit') == -1
