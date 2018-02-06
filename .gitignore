@@ -1,0 +1,4 @@
+/.vagrant/
+/sites/
+/vault.key
+/roles/anyconnect/files/anyconnect*.sh
