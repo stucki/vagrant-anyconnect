@@ -1,0 +1,6 @@
+---
+sudoers_filename: ansible
+sudoers:
+  - name: "%sudo"
+    users:
+      - "ALL"
