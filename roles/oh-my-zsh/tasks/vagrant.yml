@@ -1,0 +1,12 @@
+# Enable oh-my-zsh for the "vagrant" user
+---
+- name: Install .zshrc
+  template: src=zshrc.j2 dest=/home/{{ item.username }}/.zshrc owner={{ item.username }}
+  with_items:
+    - username: vagrant
+
+- name: Make zsh the default shell
+  shell: chsh -s /bin/zsh {{ item.username }}
+  with_items:
+    - username: vagrant
+  changed_when: false

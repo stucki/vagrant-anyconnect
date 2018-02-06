@@ -1,0 +1,20 @@
+# Install Oh-my-zsh
+---
+- name: Install git and zsh
+  apt: name={{ item }}
+  with_items:
+    - git
+    - zsh
+
+- name: Clone oh-my-zsh from Github
+  git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=/var/lib/oh-my-zsh
+
+- name: Install .zshrc
+  template: src=zshrc.j2 dest=/home/{{ item.username }}/.zshrc owner={{ item.username }}
+  with_items: "{{ users }}"
+
+- name: Make zsh the default shell
+  user: name={{ item.username }} shell=/bin/zsh
+  with_items: "{{ users }}"
+
+- include_tasks: vagrant.yml
