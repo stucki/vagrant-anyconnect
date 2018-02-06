@@ -1,0 +1,5 @@
+---
+- include_tasks: packages.yml
+- include_tasks: ssh.yml
+- include_tasks: locale.yml
+- include_tasks: vagrant.yml

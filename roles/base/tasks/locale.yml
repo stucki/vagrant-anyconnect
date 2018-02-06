@@ -1,0 +1,12 @@
+# Configure locales
+---
+- name: Install locales
+  locale_gen: name={{ item }} state=present
+  with_items:
+    - de_CH.UTF-8
+
+# this is needed to set the locale charmap to UTF-8)
+- name: Set default locale
+  copy: >
+    dest=/etc/default/locale
+    content='LC_ALL="en_US.UTF-8"\n'

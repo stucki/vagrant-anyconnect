@@ -1,0 +1,23 @@
+# Update package database once every day
+---
+- name: Install Ansible requirements
+  apt: name={{ item }}
+  with_items:
+    - aptitude
+
+- name: Upgrade apt packages
+  apt: update_cache=yes
+       upgrade=yes
+       cache_valid_time=86400
+
+- name: Install common packages
+  apt: name={{ item }}
+  with_items:
+    - git
+    - mc
+    - nano
+    - screen
+    - vim
+
+- name: Install python-software-properties so the apt_repository module will work properly
+  apt: pkg=python-software-properties
