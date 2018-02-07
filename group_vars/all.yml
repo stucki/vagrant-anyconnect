@@ -1,0 +1,15 @@
+# global group vars
+---
+# Set the base directory
+base: "{{ lookup('pipe', 'git rev-parse --show-toplevel') }}/"
+
+users:
+  - username: vagrant
+
+anyconnect:
+  - vpn_server: "CHANGE_ME"
+
+# Enable these roles
+enable_etckeeper: true
+enable_sudo: true
+enable_ohmyzsh: true
