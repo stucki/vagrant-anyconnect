@@ -1,0 +1,55 @@
+# Ansible playbook to set up the base system
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - include_vars: "{{ item }}"
+      with_items:
+        - "../group_vars/all.yml"
+        #- "../host_vars/{{ ansible_hostname }}.yml"
+
+    - action: group_by key="has_etckeeper"
+      when: "enable_etckeeper|mandatory == true"
+      changed_when: false
+
+    - action: group_by key="has_sudo"
+      when: "enable_sudo|mandatory == true"
+      changed_when: false
+
+    - action: group_by key="has_ohmyzsh"
+      when: "enable_ohmyzsh|mandatory == true"
+      changed_when: false
+
+  roles:
+    - base
+
+
+- hosts: has_etckeeper
+  become: yes
+
+  roles:
+    - etckeeper
+
+
+- hosts: has_sudo
+  become: yes
+
+  roles:
+    - sudo
+
+
+- hosts: has_ohmyzsh
+  become: yes
+
+  roles:
+    - oh-my-zsh
+
+
+- hosts: all
+  become: yes
+  gather_facts: no
+
+  post_tasks:
+    - include_tasks: ../roles/etckeeper/tasks/commit.yml commit_msg="Commit changes made by the Ansible \"base\" role"

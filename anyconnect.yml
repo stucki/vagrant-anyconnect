@@ -1,0 +1,10 @@
+# Install Cisco Anyconnect VPN client
+---
+- import_playbook: playbooks/base.yml
+
+- hosts: all
+  become: yes
+  gather_facts: no
+
+  roles:
+    - anyconnect
