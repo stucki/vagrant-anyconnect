@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Connect to Cisco AnyConnect VPN client
+sudo /opt/cisco/anyconnect/bin/vpn connect {{ anyconnect.0.vpn_server }}
+
+# Uncomment the line below to accept incoming host traffic even if cisco-anyconnect prevents it.
+# Note that the IP 192.168.121.1 (your host) needs to match with the default gateway of your Vagrant box.
+sudo iptables -I ciscovpn -s 192.168.121.1 -j ACCEPT

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Install Cisco AnyConnect VPN client
+
+ANYCONNECT_INSTALL_BIN=$(find /vagrant/roles/anyconnect/files/anyconnect-linux64-*.sh | sort | tail -n 1)
+
+sudo $ANYCONNECT_INSTALL_BIN
+
+# Add any certificates from your host to the Cisco VPN CA folder
+for FILE in /etc/ssl/certs/*; do
+	if [ ! -f /opt/.cisco/certificates/ca/$(basename $FILE) ]; then
+		sudo ln -s $FILE /opt/.cisco/certificates/ca/$(basename $FILE)
+	fi
+done

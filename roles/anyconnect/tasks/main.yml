@@ -11,12 +11,9 @@
     - libpangox-1.0-0
     - libpangoxft-1.0-0
 
-- lineinfile: >
-    dest=/home/vagrant/.zshrc
-    line="{{ item }}"
+- name: Install helper scripts for Cisco AnyConnect VPN client
+  template: src="{{ item }}.j2" dest="/usr/local/bin//{{ item }}" mode=0755
   with_items:
-    - "{{ '#' }} Aliases for Cisco Anyconnect VPN client"
-    - alias vpn-install='find /vagrant/roles/anyconnect/files/anyconnect-linux64-*.sh | sort | tail -n 1 | xargs sudo && for FILE in /etc/ssl/certs/*; do sudo ln -s $FILE /opt/.cisco/certificates/ca/$(basename $FILE); done'
-    #- alias vpn-connect='sudo /opt/cisco/anyconnect/bin/vpn connect YOURSERVER && sudo iptables -I ciscovpn -s 192.168.121.1 -j ACCEPT'
-    - alias vpn-connect='sudo /opt/cisco/anyconnect/bin/vpn connect YOURSERVER'
-    - alias vpn-disconnect='sudo /opt/cisco/anyconnect/bin/vpn disconnect'
+    - vpn-connect
+    - vpn-disconnect
+    - vpn-install
