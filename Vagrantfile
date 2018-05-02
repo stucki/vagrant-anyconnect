@@ -132,6 +132,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       if ['virtualbox', 'vmware', 'lxc', 'libvirt'].include?(opts[:provider])
         node.vm.box = opts[:image]
         node.vm.box_url = opts[:box_url] unless opts[:box_url].nil?
+        node.vm.box_check_update = false
       end
 
       if opts[:provider] == "virtualbox"
