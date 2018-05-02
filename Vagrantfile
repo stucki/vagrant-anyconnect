@@ -129,10 +129,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       node.vm.provision "shell", inline: "sudo apt-get -qq update && sudo apt-get -y install python"
 
-      if opts[:provider] == "virtualbox"
+      if ['virtualbox', 'vmware', 'lxc', 'libvirt'].include?(opts[:provider])
         node.vm.box = opts[:image]
         node.vm.box_url = opts[:box_url] unless opts[:box_url].nil?
+      end
 
+      if opts[:provider] == "virtualbox"
         node.vm.provision "shell", inline: "sudo apt-get -qq update && sudo apt-get -y install python"
 
         # For information on available options for the Virtualbox provider, please visit:
@@ -151,9 +153,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       if opts[:provider] == "vmware"
-        node.vm.box = opts[:image]
-        node.vm.box_url = opts[:box_url] unless opts[:box_url].nil?
-
         # For information on available options for the VMware provider, please visit:
         # http://docs.vagrantup.com/v2/vmware/configuration.html
         node.vm.provider "vmware" do |vmware|
@@ -174,9 +173,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       if opts[:provider] == "lxc"
-        node.vm.box = opts[:image]
-        node.vm.box_url = opts[:box_url] unless opts[:box_url].nil?
-
         # For information on available options for the Virtualbox provider, please visit:
         # http://docs.vagrantup.com/v2/virtualbox/configuration.html
         node.vm.provider "lxc" do |lxc|
@@ -186,9 +182,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       if opts[:provider] == "libvirt"
-        node.vm.box = opts[:image]
-        node.vm.box_url = opts[:box_url] unless opts[:box_url].nil?
-
         # For information on available options for the Virtualbox provider, please visit:
         # http://docs.vagrantup.com/v2/virtualbox/configuration.html
         node.vm.provider "libvirt" do |libvirt|
